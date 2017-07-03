@@ -4,9 +4,8 @@
 #include "config.h"
 #include <sapiArduino.h>
 #include <CSVwriter.h>
-   
 
-
+ 
 //jsessionid & validationkey
 Session keys;
 
@@ -17,6 +16,7 @@ FileInfo file;
 String date;
 String weight;
 int h = 1;
+int conta = 0;
 int statusCode = -1;
 String Id = "";
 String a;
@@ -33,16 +33,20 @@ void setup() {
 }
 
 void loop() {
-  int err = 1000;
-  int d = 5000;
-  if(h==1){
-    Id = readId();
-  }
   if(((((millis()/h)/1000)/60)==14)||(h==1)){
     statusCode = doLogin(username, password, &keys);
     Serial.print("statusCode: ");
     Serial.println(statusCode);
     h++;
+  }
+  int err = 1000;
+  int d = 5000;
+  if(conta == 0){
+    Id = readId();
+    if(Id != ""){
+      dowloadWithId(Id, &file, keys);
+    }
+    conta = 1;
   }
   if(digitalRead(LED_BUILTIN)){
     buildCsvInfo(&file);
@@ -58,7 +62,7 @@ void loop() {
           err = saveFile(keys, file, Id);
           if(err == 1000){
             delay(d);
-            d = d + 2000;
+            d += 2000;
           }
       }
     }
