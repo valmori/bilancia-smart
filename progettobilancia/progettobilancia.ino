@@ -45,6 +45,7 @@ void loop() {
     Id = readId();
     if(Id != ""){
         file.content = fileContent(fileGet(dowloadWithId(Id, &file, keys)));
+        Serial.println("ready");
     }
     conta = 1;
   }
