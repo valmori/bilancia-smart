@@ -44,7 +44,7 @@ void loop() {
   if(conta == 0){
     Id = readId();
     if(Id != ""){
-      dowloadWithId(Id, &file, keys);
+        file.content = fileContent(fileGet(dowloadWithId(Id, &file, keys)));
     }
     conta = 1;
   }
